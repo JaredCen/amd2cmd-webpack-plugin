@@ -1,6 +1,6 @@
 # AMD2CMD Webpack Plugin
 
-This is a [webpack](http://webpack.github.io/) plugin that transform AMD module into CMD module when the library is exposed as an AMD module. Because webpack can not support output library as an CMD module, so this plugin is useful when your library is supposed to run within CMD module loader like seajs.
+This is a [webpack](http://webpack.github.io/) plugin that transform the output library exposed as an AMD module into CMD module. Because webpack can not support output library as an CMD module, so this plugin is useful when your library is supposed to run within CMD module loader like seajs.
 
 ## Installation
 Install the plugin with npm:
