@@ -1,17 +1,14 @@
-## AMD2CMD Webpack Plugin
-===========================
+# AMD2CMD Webpack Plugin
 
 This is a [webpack](http://webpack.github.io/) plugin that transform AMD module into CMD module when the library is exposed as an AMD module. Because webpack can not support output library as an CMD module, so this plugin is useful when your library is supposed to run within CMD module loader like seajs.
 
 ### Installation
------------------
 Install the plugin with npm:
 ```shell
 $ npm install amd2cmd-webpack-plugin --save-dev
 ```
 
 ### Usage
-----------------
 ```javascript
 var Amd2CmdWebpackPlugin = require('amd2cmd-webpack-plugin')
 var webpackConfig = {
@@ -42,7 +39,6 @@ define(function(require, cmdExports, cmdModule) {
 ```
 
 ### Configuration
-------------------
 In order to support js concat and ie (version 6-9), `require` function within CMD module is supposed to some typographic conventions, [CMD details](https://github.com/seajs/seajs/issues/426). 
 
 You can do this with `UglifyJsPlugin` to reserve `require` identifiers, then use CMD build tools to generate `id` and `dependencies`.
@@ -86,6 +82,6 @@ define('../amd2cmd/webpack-plugin', ["$"], function(require, cmdExports, cmdModu
 });
 ```
 
-# License
+### License
 
 This project is licensed under [MIT](https://github.com/jantimon/html-webpack-plugin/blob/master/LICENSE).
