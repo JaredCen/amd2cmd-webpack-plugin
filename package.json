@@ -3,6 +3,11 @@
   "version": "1.0.2",
   "description": "Transform AMD module library into CMD module built by webpack",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JunreyCen/amd2cmd-webpack-plugin.git"
+  },
+  "homepage": "https://github.com/JunreyCen/amd2cmd-webpack-plugin",
   "scripts": {},
   "keywords": [
     "webpack",
