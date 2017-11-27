@@ -30,7 +30,7 @@ var webpackConfig = {
 };
 ```
 
-This will make the library exposed as an CMD module:
+This will make the library exposed as an CMD module, the `cmdExports` and `cmdModule` identifiers named just for avoiding conflict.
 ```javascript
 define(function(require, cmdExports, cmdModule) {
     var __WEBPACK_EXTERNAL_MODULE_70__ = require('$');
@@ -41,7 +41,7 @@ define(function(require, cmdExports, cmdModule) {
 ## Configuration
 In order to support js concat and ie (version 6-9), `require` function within CMD module is supposed to some typographic conventions, [CMD details](https://github.com/seajs/seajs/issues/426). 
 
-You can do this with `UglifyJsPlugin` to reserve `require` identifiers, then use CMD build tools to generate `id` and `dependencies`.
+You can do this with `UglifyJsPlugin` to reserve `require` identifier, then use CMD build tools to generate `id` and `dependencies`.
 ```javascript
 var Amd2CmdWebpackPlugin = require('amd2cmd-webpack-plugin')
 var webpackConfig = {
