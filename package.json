@@ -1,0 +1,19 @@
+{
+  "name": "amd2cmd-webpack-plugin",
+  "version": "1.0.0",
+  "description": "Transform AMD module library into CMD module built by webpack",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [
+    "webpack",
+    "plugin",
+    "amd2cmd",
+    "amd",
+    "cmd"
+  ],
+  "author": "Junrey Cen <junrey@foxmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "1 || ^2 || ^2.1.0-beta || ^2.2.0-rc || ^3"
+  }
+}
