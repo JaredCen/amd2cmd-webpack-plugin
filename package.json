@@ -8,7 +8,9 @@
     "url": "https://github.com/JunreyCen/amd2cmd-webpack-plugin.git"
   },
   "homepage": "https://github.com/JunreyCen/amd2cmd-webpack-plugin",
-  "scripts": {},
+  "scripts": {
+    "build": "webpack --config ./example/webpack.conf.js"
+  },
   "keywords": [
     "webpack",
     "plugin",
@@ -20,5 +22,11 @@
   "license": "MIT",
   "devDependencies": {
     "webpack": "1 || ^2 || ^2.1.0-beta || ^2.2.0-rc || ^3"
+  },
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1"
   }
 }
