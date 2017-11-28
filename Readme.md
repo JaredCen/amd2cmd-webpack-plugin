@@ -84,4 +84,4 @@ define('../amd2cmd/webpack-plugin', ["$"], function(require, cmdExports, cmdModu
 
 ## License
 
-This project is licensed under [MIT](https://github.com/jantimon/html-webpack-plugin/blob/master/LICENSE).
+This project is licensed under MIT.
