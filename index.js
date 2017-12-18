@@ -56,7 +56,7 @@ class Amd2CmdWebpackPlugin {
                             const input = asset.source();
 
                             const source = (s => {
-                                    s = s.replace(/define[\s\S]+?define/, 'define');
+                                    s = s.replace(/define[\s\S]+?define\(/, 'define(');
                                     s = s.replace(/\}\);\s*\}\);;$/, '\n});');
                                     return s;
                             })(input);
