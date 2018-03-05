@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import $ from 'jquery';
 
 class Example {
     constructor() {

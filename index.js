@@ -11,6 +11,7 @@ const Template = require("webpack/lib/Template");
 class Amd2CmdWebpackPlugin {
     constructor(options = {}) {
         this.id = options.id;
+        this.globalExternals = options.globalExternals;
     }
 
     apply(compiler) {
@@ -28,23 +29,30 @@ class Amd2CmdWebpackPlugin {
                     Template.toIdentifier(`__WEBPACK_EXTERNAL_MODULE_${m.id}__`)
                 );
 
-                const externalsRequire = externalsArguments.map((m, i) => `var ${m} = require('${externalsDepsArray[i]}');\n`).join("");
+                const localExternalsDepsArray = [];
+                const globalExternalsDepsArray = externals.map((m, i) => {
+                    if (this.globalExternals && this.globalExternals[m.userRequest]) {
+                        const dep = this.globalExternals[m.userRequest];
+                        return dep.search(/window/) === -1 ? `window.${dep}` : dep;
+                    } else {
+                        localExternalsDepsArray.push(externalsDepsArray[i]);
+                        return false;
+                    }
+                });
+
+                const externalsRequire = externalsArguments.map((m, i) => {
+                    if (globalExternalsDepsArray[i]) {
+                        return `var ${m} = ${globalExternalsDepsArray[i]};\n`;
+                    } else {
+                        return `var ${m} = require('${externalsDepsArray[i]}');\n`;
+                    }
+                }).join("");
 
                 if (this.id) {
                     const id = `'${this.id}/${chunk.name}'`;
-                    return new ConcatSource(`
-                    define(${id}, ${JSON.stringify(externalsDepsArray)}, function(require, cmdExports, cmdModule) {\n
-                        ${externalsRequire}
-                        cmdModule.exports = `, source, `
-                    });
-                    `);
+                    return new ConcatSource(`define(${id}, ${JSON.stringify(localExternalsDepsArray)}, function(require, cmdExports, cmdModule) {\n\n${externalsRequire}\n\ncmdModule.exports = `, source, `\n});`);
                 } else {
-                    return new ConcatSource(`
-                    define(function(require, cmdExports, cmdModule) {\n
-                        ${externalsRequire}
-                        cmdModule.exports = `, source, `
-                    });
-                    `);
+                    return new ConcatSource(`define(function(require, cmdExports, cmdModule) {\n\n${externalsRequire}\n\ncmdModule.exports = `, source, `\n});`);
                 }
             });
 

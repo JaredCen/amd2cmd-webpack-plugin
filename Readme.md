@@ -1,14 +1,16 @@
 # AMD2CMD Webpack Plugin
 
-This is a [webpack](http://webpack.github.io/) plugin that transform the output library exposed as an AMD module into CMD module. Because webpack can not support output library as an CMD module, so this plugin is useful when your library is supposed to run within CMD module loader like seajs.
+此插件会把webpack打包的amd库输出为cmd库。
 
 ## Installation
 Install the plugin with npm:
+
 ```shell
 $ npm install amd2cmd-webpack-plugin --save-dev
 ```
 
 ## Usage
+
 ```javascript
 var Amd2CmdWebpackPlugin = require('amd2cmd-webpack-plugin')
 var webpackConfig = {
@@ -16,7 +18,7 @@ var webpackConfig = {
         // ...
     },
     externals: {
-        'jquery': '$',
+        jquery: '$',
         // ...
     },
     output: {
@@ -24,13 +26,14 @@ var webpackConfig = {
         libraryTarget: 'amd'
     },
     plugins: [
-        new HtmlWebpackPlugin(),
+        new Amd2CmdWebpackPlugin(),
         // ...
     ]
 };
 ```
 
-This will make the library exposed as an CMD module, the `cmdExports` and `cmdModule` identifiers named just for avoiding conflict.
+编译结果如下：
+
 ```javascript
 define(function(require, cmdExports, cmdModule) {
     var __WEBPACK_EXTERNAL_MODULE_70__ = require('$');
@@ -38,10 +41,73 @@ define(function(require, cmdExports, cmdModule) {
 });
 ```
 
-## Configuration
-In order to support js concat and ie (version 6-9), `require` function within CMD module is supposed to some typographic conventions, [CMD details](https://github.com/seajs/seajs/issues/426). 
+## API
 
-You can do this with `UglifyJsPlugin` to reserve `require` identifier, then use CMD build tools to generate `id` and `dependencies`.
+- id `{String}`
+插件会把传入的`id`值与模块名拼接成`dependencies`参数。
+
+```javascript
+var webpackConfig = {
+    // ...
+    entry: {
+        webpack-plugin: ''
+    },
+    externals: {
+        jquery: '$',
+        // ...
+    },
+    plugins: [
+        new Amd2CmdWebpackPlugin({
+            id: '../amd2cmd/'
+        }),
+        // ...
+    ]
+};
+```
+
+编译结果如下：
+
+```javascript
+define('../amd2cmd/webpack-plugin', ["$"], function(require, cmdExports, cmdModule) {
+    // ...
+});
+```
+
+- globalExternals `{Object}`
+插件会把`globalExternals`中的依赖引入方式从`require`函数方式引入改为全局变量引入。
+
+```javascript
+var webpackConfig = {
+    // ...
+    externals: {
+        jquery: '$',
+        // ...
+    },
+    plugins: [
+        new Amd2CmdWebpackPlugin({
+            globalExternals: {
+                jquery: '$'
+            }
+        }),
+        // ...
+    ]
+};
+```
+
+编译结果如下：
+
+```javascript
+define(function(require, cmdExports, cmdModule) {
+    var __WEBPACK_EXTERNAL_MODULE_70__ = window.$;
+    // ...
+});
+```
+
+## Configuration
+为了支持js concat 和 ie (version 6-9)，`require`标识符需要被保留，[详见CMD官方说明](https://github.com/seajs/seajs/issues/426). 
+
+你可以通过配置`UglifyJsPlugin`保留`require`标识符，然后使用CMD构建工具去生成`id`和`dependencies`。
+
 ```javascript
 var Amd2CmdWebpackPlugin = require('amd2cmd-webpack-plugin')
 var webpackConfig = {
@@ -54,32 +120,6 @@ var webpackConfig = {
         })
     ]
 };
-```
-
-You can also pass `id` configuration options to add `id` property within CMD module, and the plugin will generate `dependencies` autoly.
-```javascript
-var webpackConfig = {
-    // ...
-    entry: {
-        'webpack-plugin': ''
-    },
-    externals: {
-        'jquery': '$',
-        // ...
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            id: '../amd2cmd/'
-        }),
-        // ...
-    ]
-};
-```
-It works:
-```javascript
-define('../amd2cmd/webpack-plugin', ["$"], function(require, cmdExports, cmdModule) {
-    // ...
-});
 ```
 
 ## License

@@ -4,7 +4,7 @@ var Amd2CmdWebpackPlugin = require('../index')
 
 var output = {
     entry: {
-        'example': path.join(__dirname, '../example/example.js')
+        example: path.join(__dirname, '../example/example.js')
     },
     output: {
         filename: 'bundle.js',
@@ -19,16 +19,21 @@ var output = {
         }]
     },
     externals: {
-        'lodash': '_'
+        lodash: '_',
+        jquery: '$',
     },
     plugins: [
-        new Amd2CmdWebpackPlugin(),
+        new Amd2CmdWebpackPlugin({
+            globalExternals: {
+                lodash: '_'
+            }
+        }),
     ]
 };
 
 var outputWithId = {
     entry: {
-        'example': path.join(__dirname, '../example/example.js')
+        example: path.join(__dirname, '../example/example.js')
     },
     output: {
         filename: 'bundle.withId.js',
@@ -43,7 +48,8 @@ var outputWithId = {
         }]
     },
     externals: {
-        'lodash': '_'
+        lodash: '_',
+        jquery: '$',
     },
     plugins: [
         new Amd2CmdWebpackPlugin({
@@ -54,7 +60,7 @@ var outputWithId = {
 
 var minOutput = {
     entry: {
-        'example': path.join(__dirname, '../example/example.js')
+        example: path.join(__dirname, '../example/example.js')
     },
     output: {
         filename: 'bundle.min.js',
@@ -69,10 +75,15 @@ var minOutput = {
         }]
     },
     externals: {
-        'lodash': '_'
+        lodash: '_',
+        jquery: '$',
     },
     plugins: [
-        new Amd2CmdWebpackPlugin(),
+        new Amd2CmdWebpackPlugin({
+            globalExternals: {
+                lodash: '_'
+            }
+        }),
         new webpack.optimize.UglifyJsPlugin({
             mangle: {
               except: ['require']
