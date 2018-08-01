@@ -62,7 +62,7 @@ var outputWithId = {
 };
 
 var minOutput = {
-    mode: 'development',
+    mode: 'production',
     entry: {
         example: path.join(__dirname, '../example/example.js')
     },
@@ -82,18 +82,22 @@ var minOutput = {
         lodash: '_',
         jquery: '$',
     },
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    mangle: {
+                        reserved: ['require'],
+                    }
+                }
+            })
+        ]
+    },
     plugins: [
         new Amd2CmdWebpackPlugin({
             globalExternals: {
                 lodash: '_'
             }
-        }),
-        new UglifyJsPlugin({
-            uglifyOptions: {
-                mangle: {
-                    reserved: ['require'],
-                }
-            },
         })
     ]
 };

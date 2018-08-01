@@ -110,13 +110,26 @@ define(function(require, cmdExports, cmdModule) {
 
 ```javascript
 var Amd2CmdWebpackPlugin = require('amd2cmd-webpack-plugin')
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 var webpackConfig = {
     // ...
+    mode: 'production',
+    optimization: {
+        minimizer: [
+            new UglifyJsPlugin({
+                uglifyOptions: {
+                    mangle: {
+                        reserved: ['require'],
+                    }
+                }
+            })
+        ]
+    },
     plugins: [
-        new webpack.optimize.UglifyJsPlugin({
-            mangle: {
-                except: ['require']
-            },
+        new Amd2CmdWebpackPlugin({
+            globalExternals: {
+                lodash: '_'
+            }
         })
     ]
 };
