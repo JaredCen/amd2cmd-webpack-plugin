@@ -1,8 +1,10 @@
 var path = require('path')
 var webpack = require('webpack')
 var Amd2CmdWebpackPlugin = require('../index')
+var UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 var output = {
+    mode: 'development',
     entry: {
         example: path.join(__dirname, '../example/example.js')
     },
@@ -32,6 +34,7 @@ var output = {
 };
 
 var outputWithId = {
+    mode: 'development',
     entry: {
         example: path.join(__dirname, '../example/example.js')
     },
@@ -59,6 +62,7 @@ var outputWithId = {
 };
 
 var minOutput = {
+    mode: 'development',
     entry: {
         example: path.join(__dirname, '../example/example.js')
     },
@@ -84,11 +88,13 @@ var minOutput = {
                 lodash: '_'
             }
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            mangle: {
-              except: ['require']
-            }
-        }),
+        new UglifyJsPlugin({
+            uglifyOptions: {
+                mangle: {
+                    reserved: ['require'],
+                }
+            },
+        })
     ]
 };
 
