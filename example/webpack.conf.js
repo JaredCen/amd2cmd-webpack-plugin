@@ -11,7 +11,6 @@ var output = {
     output: {
         filename: 'bundle.js',
         path: path.join(__dirname, '../example'),
-        library: 'junrey',
         libraryTarget: 'amd'
     },
     module: {
